@@ -123,6 +123,24 @@ Projede servislerin dayanıklılığını artırmak için Circuit Breaker deseni
 
 Geçici hatalar durumunda işlemlerin otomatik olarak yeniden denenmesini sağlar.
 
+### Kafka ve Outbox Pattern
+
+Sistem, asenkron veri işleme için Kafka ve güvenilir mesaj iletimi için Outbox Pattern kullanmaktadır.
+
+### Kafka Entegrasyonu
+
+Sistem, etkinlik tabanlı mimari için Apache Kafka kullanır. Bu entegrasyon şu avantajları sağlar:
+
+- kafkaUI
+- http://localhost:8080/
+
+### Outbox Pattern
+
+Outbox Pattern, veri tutarlılığını ve güvenilir mesaj iletimini sağlamak için kullanılır.
+
+- 10 saniye aralıkla kontrol edilir
+- kafkaya iletilir
+
 ### PostGIS Entegrasyonu
 
 Coğrafi verileri işlemek için PostgreSQL'in PostGIS uzantısı kullanılmaktadır

@@ -6,11 +6,15 @@ import { AreasModule } from './areas/areas.module';
 import { LocationsModule } from './locations/locations.module';
 import { Area } from './entities/area.entity';
 import { LocationLog } from './entities/location-log.entity';
+import { Outbox } from './entities/outbox.entity';
 import { CircuitBreakerModule } from './common/circuit-breaker/circuit-breaker.module';
 import { HealthModule } from './health/health.module';
 import { ConfigModule } from '@nestjs/config';
 import { MetricsModule } from './metrics/metrics.module';
 import { MetricsMiddleware } from './metrics/metrics.middleware';
+import { KafkaModule } from './kafka/kafka.module';
+import { dataSourceOptions } from './database/datasource';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -18,21 +22,17 @@ import { MetricsMiddleware } from './metrics/metrics.middleware';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DATABASE_HOST || 'postgres',
-      port: parseInt(process.env.DATABASE_PORT || '5432', 10),
-      username: process.env.DATABASE_USERNAME || 'postgres',
-      password: process.env.DATABASE_PASSWORD || 'postgres',
-      database: process.env.DATABASE_NAME || 'geoservice',
-      entities: [Area, LocationLog],
-      synchronize: true, // Geliştirme ortamında true, production'da false olmalı
-      logging: true,
+      ...dataSourceOptions,
+      entities: [Area, LocationLog, Outbox],
+      autoLoadEntities: true,
     }),
     CircuitBreakerModule,
     AreasModule,
     LocationsModule,
     HealthModule,
     MetricsModule,
+    KafkaModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

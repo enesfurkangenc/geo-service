@@ -81,7 +81,8 @@ export class MetricsService {
     this.locationsTotal.set(count);
   }
 
-  // Registry'i dışa aktarma
+  async updateLocationCountMetric(): Promise<void> {}
+
   getRegistry(): Registry {
     return this.registry;
   }
